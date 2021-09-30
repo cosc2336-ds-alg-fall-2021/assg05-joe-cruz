@@ -33,10 +33,11 @@ class List
 {
 public:
   // constructors and destructors
-  List(int size = 0);              // default constructor
-  List(int size, string values[]); // standard constructor
-  List(const List& list);          // copy constructor
-  ~List();                         // destructor
+  List(int size = 0);                         // default constructor
+  List(int size, string values[]);            // standard constructor
+  List(const List& list);                     // copy constructor
+  List(const List& list, int begin, int end); // sub copy constructor
+  ~List();                                    // destructor
 
   // accessor methods declarations go here
   int getSize() const;

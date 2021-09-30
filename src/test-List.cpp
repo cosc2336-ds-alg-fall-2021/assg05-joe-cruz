@@ -162,7 +162,7 @@ TEST_CASE("<List> test of List user defined type for this assignment", "[task0]"
 
 /** Task 1: implement a sublist copy constructor for the List class.
  */
-/*
+/**/ 
 TEST_CASE("<List constructor> test of new sublist copy constructor", "[task1]")
 {
   string values1[] = {"neo", "morpheus", "trinity", "cypher", "oracle"};
@@ -238,7 +238,6 @@ TEST_CASE("<List constructor> test of new sublist copy constructor", "[task1]")
   CHECK_THROWS_AS(List(l1, 0, -1), ListMemoryBoundsException);
   CHECK_THROWS_AS(List(l1, 0, 5), ListMemoryBoundsException);
 }
-*/
 
 /** Task 2: implement merge member function
  */

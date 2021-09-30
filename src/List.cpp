@@ -95,10 +95,49 @@ List::List(const List& list)
   values = new string[size];
 
   // copy the values from the input List into this list
-  for (int index = 0; index < size; index++)
+  for (int i = 0; i < size; i++)
   {
-    values[index] = list.values[index];
+
+    values[i] = list.values[i];
   }
+}
+/** @brief Sublist Copy constructor
+ *
+ * Provide a sublist copy constructor for the List class.  A copy constructor
+ * copies and indicates sub portion of the original list to be the new list we are creating.
+ *
+ * @param list The other List type we are to make a copy of in this
+ *   constructor.
+ * @param begin The begin index of the sublist to make a copy of for this
+ * new list
+ * @param end The begin index of the sublist to make a copy of for this
+ * new list
+ */
+List::List(const List& list, int begin, int end)
+{
+    if ((begin < 0) || (begin >= list.size) || (end<0) || (end>=list.size))
+  {
+    ostringstream out;
+    out << "Error: illegal bounds access";
+
+    throw ListMemoryBoundsException(out.str());
+  }
+
+  int temp;
+  temp = 0;
+  size = 0;
+  for (int i = begin; i<=end; i++)
+  {
+    size++;
+  }
+  values = new string[size];
+
+  for (int i = begin; i <= end; i++)
+  {
+    values[temp] = list.values[i];
+    temp++;
+  }
+
 }
 
 /** @brief Class destructor
@@ -285,3 +324,5 @@ const char* ListMemoryBoundsException::what() const throw()
   // what expects old style array of characters, so convert to that
   return message.c_str();
 }
+
+
