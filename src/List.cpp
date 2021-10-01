@@ -411,5 +411,55 @@ const char* ListMemoryBoundsException::what() const throw()
   return message.c_str();
 }
 
+/** @brief A binary search method
+ *
+ * A recursive binary search.The base case is, if end is less than or 
+ * equal to begin, then there is 1 or less items left in the list to search. 
+ * In that case you should test the item in the begin index and if the item 
+ * is what we were looking for, you return the begin index where it was found. 
+ * But if the item is not what was being looked for, then you return NOT_FOUND
+ * to indicate a failed search.
+ * 
+ * @param sear A constant reference to a string to be searched.
+ * 
+ * @param begin The begining of an index that is being searched.
+ * 
+ * @param end The ending of an index that is being searched.
+ * 
+ * @returns What is being searched within the string
+ */
+int List::search (const string sear,int begin, int end)
+{
+  if (size < 1)
+  {
+    return NOT_FOUND;
+  }
+
+  if(begin < end)
+  {
+    int total = (begin+end);
+    int middle = total/2;
+    if (values[middle]== sear)
+    {
+      return middle;
+    }
+    if (values[middle] > sear)
+    {
+      return search(sear, begin, middle-1);
+    }
+    else
+    {
+      return search(sear, middle+1, end);
+    }
+  }
+  if (operator[](begin)==sear)
+  {
+    return begin;
+  }
+  else
+  {
+    return NOT_FOUND;
+  }
+}
 
 

@@ -554,7 +554,7 @@ TEST_CASE("<List> implement sort member function", "[task3]")
 
 /** Task 4: implement the recursive search member function
  */
-/*
+/**/
 TEST_CASE("<List> implement search member function", "[task4]")
 {
 
@@ -619,7 +619,6 @@ TEST_CASE("<List> implement search member function", "[task4]")
     CHECK(result == NOT_FOUND);
   }
 }
-*/
 
 /** Task 5: implement the isSorted() member function
  */
