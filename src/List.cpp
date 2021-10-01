@@ -461,5 +461,50 @@ int List::search (const string sear,int begin, int end)
     return NOT_FOUND;
   }
 }
+/**
+ * @brief Checks to see if a list is sorted or not.
+ * 
+ * isSorted() member function which will return true if 
+ * the List is currently sorted, and false if it is not. 
+ * This function should calculate its result dynamically, 
+ * it should not rely on adding or setting a new member 
+ * variable that is set to try after sort() is called, but 
+ * instead checks pairs of items of the List to see if any 
+ * are out of order, and thus the list is not sorted.
+ * 
+ * @returns true if a list is sorted.
+ **/
+bool List::isSorted() const
+{
+  for (int i=0; i < size-1; i++)
+  {
+    if (values[i] > values[i+1])
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * @brief Checks to see if a list is sorted or not.
+ * 
+ * This method takes a string to search for in
+ *  the list, and it returns the index where the value
+ *  is found in the list. This method checks if the list is 
+ * sorted using the isSorted() method, and if not, it calls sort() 
+ *  to make sure the list becomes sorted before doing the
+ *  search.
+ * 
+ * @returns the index where the value is found in the list.
+ **/
+int List::search(const string sear)
+{
+  if (isSorted()== false)
+  {
+    sort();
+  }
+  return search(sear, 0 , size-1);
+}
 
 

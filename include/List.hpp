@@ -52,6 +52,8 @@ public:
 void merge(const List& lower, const List& upper);
 void sort();
 int search (const string sear,int begin, int end);
+bool isSorted() const;
+int search(const string sear);
 private:
   /// @brief the current size of the list of integer values
   int size;
