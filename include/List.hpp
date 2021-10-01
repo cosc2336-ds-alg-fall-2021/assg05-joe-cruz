@@ -49,6 +49,7 @@ public:
   friend ostream& operator<<(ostream& out, const List& rhs);
 
   // sorting and searching method declarations go here
+void merge(const List& lower, const List& upper);
 
 private:
   /// @brief the current size of the list of integer values

@@ -241,7 +241,7 @@ TEST_CASE("<List constructor> test of new sublist copy constructor", "[task1]")
 
 /** Task 2: implement merge member function
  */
-/*
+/**/
 TEST_CASE("<List> implement merge member function", "[task2]")
 {
   SECTION("test merge order lower, upper, lower, upper")
@@ -413,7 +413,7 @@ TEST_CASE("<List> implement merge member function", "[task2]")
                       "dujour, morpheus, mouse, neo, spoon boy, switch, , , ,  ]");
   }
 }
-*/
+
 
 /** Task 3: implement the recursive sort member function
  */

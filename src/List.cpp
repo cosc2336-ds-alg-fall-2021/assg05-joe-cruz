@@ -294,6 +294,68 @@ ostream& operator<<(ostream& out, const List& rhs)
   return out;
 }
 
+/** @brief merge two sorted list into this list
+ * 
+ * Given two sorted smaller list, merge them into the values of this list.
+ * We assum that the two input list are already sorted for this merge
+ * to work. And we assume that this list has enough room for the merge.
+ * If this list is not big enough, we simply throw an exception saying
+ * we can't perform the merge.
+ * 
+ * @param lower A constant reference to a list. One of the two list we 
+ * are merging into this list.
+ * 
+ * @param upper A constant reference to a list. One of the two list we 
+ * are merging into this list.
+ * 
+ * @throws ListMemoryBoundsException if this list is not big enough
+ * to hold all of the mergerd values
+ * 
+*/
+void List::merge(const List& lower, const List& upper)
+{
+  int iU = 0;
+  int iL = 0;
+  int i = 0;
+  int mergeSize = lower.getSize() + upper.getSize();
+  if (size < mergeSize)
+  {
+    ostringstream msg;
+    msg << "Error: lower size: " << lower.getSize() << endl
+    << " upper size: " << upper.getSize() << endl
+    << " this object not big enough to hold result size" << endl;
+
+    throw ListMemoryBoundsException(msg.str());
+  }  
+  while (iL < lower.getSize() and iU < upper.getSize())
+  {
+  if (upper.values[iU] < lower.values[iL])
+    {
+      values[i] = upper.values[iU];
+      iU++;
+    }
+  else
+    {
+      values[i] = lower.values[iL];
+      iL++;
+    }
+      i++;
+  }
+  do
+  {
+    if (iL < lower.getSize())
+    {
+      values[i] = lower.values[iL];
+      iL++;
+    }
+    if (iU < upper.getSize())
+    {
+      values[i] = upper.values[iU];
+      iU++;
+    }
+    i++;
+  } while( i < size);
+}
 /** @brief Memory bounds exception constructor
  *
  * Constructor for exceptions used for our List class.
@@ -324,5 +386,6 @@ const char* ListMemoryBoundsException::what() const throw()
   // what expects old style array of characters, so convert to that
   return message.c_str();
 }
+
 
 
