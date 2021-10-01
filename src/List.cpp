@@ -356,6 +356,30 @@ void List::merge(const List& lower, const List& upper)
     i++;
   } while( i < size);
 }
+/** @brief Splits two list and sorts them.
+ * 
+ * Split the current list into two sublists of as equal as possible number of values.
+ * The sort() method will take no input parameters, and it is a void function.
+ * It wil split two sublist, sort them out by calling itself, and merge them.
+ * 
+ * 
+*/
+void List::sort()
+{
+  if (size <= 1)
+  {
+    return;
+  }
+  int split = size / 2;
+  List lower = List(*this, 0, split-1);
+  List upper = List(*this, split, size-1);
+  lower.sort(); 
+  upper.sort();
+  merge(lower, upper);
+}
+
+
+
 /** @brief Memory bounds exception constructor
  *
  * Constructor for exceptions used for our List class.
