@@ -33,10 +33,11 @@ class List
 {
 public:
   // constructors and destructors
-  List(int size = 0);              // default constructor
-  List(int size, string values[]); // standard constructor
-  List(const List& list);          // copy constructor
-  ~List();                         // destructor
+  List(int size = 0);                         // default constructor
+  List(int size, string values[]);            // standard constructor
+  List(const List& list);                     // copy constructor
+  List(const List& list, int begin, int end); // sub copy constructor
+  ~List();                                    // destructor
 
   // accessor methods declarations go here
   int getSize() const;
@@ -48,7 +49,11 @@ public:
   friend ostream& operator<<(ostream& out, const List& rhs);
 
   // sorting and searching method declarations go here
-
+void merge(const List& lower, const List& upper);
+void sort();
+int search (const string sear,int begin, int end);
+bool isSorted() const;
+int search(const string sear);
 private:
   /// @brief the current size of the list of integer values
   int size;

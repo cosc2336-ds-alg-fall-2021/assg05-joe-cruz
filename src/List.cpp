@@ -95,10 +95,49 @@ List::List(const List& list)
   values = new string[size];
 
   // copy the values from the input List into this list
-  for (int index = 0; index < size; index++)
+  for (int i = 0; i < size; i++)
   {
-    values[index] = list.values[index];
+
+    values[i] = list.values[i];
   }
+}
+/** @brief Sublist Copy constructor
+ *
+ * Provide a sublist copy constructor for the List class.  A copy constructor
+ * copies and indicates sub portion of the original list to be the new list we are creating.
+ *
+ * @param list The other List type we are to make a copy of in this
+ *   constructor.
+ * @param begin The begin index of the sublist to make a copy of for this
+ * new list
+ * @param end The begin index of the sublist to make a copy of for this
+ * new list
+ */
+List::List(const List& list, int begin, int end)
+{
+    if ((begin < 0) || (begin >= list.size) || (end<0) || (end>=list.size))
+  {
+    ostringstream out;
+    out << "Error: illegal bounds access";
+
+    throw ListMemoryBoundsException(out.str());
+  }
+
+  int temp;
+  temp = 0;
+  size = 0;
+  for (int i = begin; i<=end; i++)
+  {
+    size++;
+  }
+  values = new string[size];
+
+  for (int i = begin; i <= end; i++)
+  {
+    values[temp] = list.values[i];
+    temp++;
+  }
+
 }
 
 /** @brief Class destructor
@@ -255,6 +294,92 @@ ostream& operator<<(ostream& out, const List& rhs)
   return out;
 }
 
+/** @brief merge two sorted list into this list
+ * 
+ * Given two sorted smaller list, merge them into the values of this list.
+ * We assum that the two input list are already sorted for this merge
+ * to work. And we assume that this list has enough room for the merge.
+ * If this list is not big enough, we simply throw an exception saying
+ * we can't perform the merge.
+ * 
+ * @param lower A constant reference to a list. One of the two list we 
+ * are merging into this list.
+ * 
+ * @param upper A constant reference to a list. One of the two list we 
+ * are merging into this list.
+ * 
+ * @throws ListMemoryBoundsException if this list is not big enough
+ * to hold all of the mergerd values
+ * 
+*/
+void List::merge(const List& lower, const List& upper)
+{
+  int iU = 0;
+  int iL = 0;
+  int i = 0;
+  int mergeSize = lower.getSize() + upper.getSize();
+  if (size < mergeSize)
+  {
+    ostringstream msg;
+    msg << "Error: lower size: " << lower.getSize() << endl
+    << " upper size: " << upper.getSize() << endl
+    << " this object not big enough to hold result size" << endl;
+
+    throw ListMemoryBoundsException(msg.str());
+  }  
+  while (iL < lower.getSize() and iU < upper.getSize())
+  {
+  if (upper.values[iU] < lower.values[iL])
+    {
+      values[i] = upper.values[iU];
+      iU++;
+    }
+  else
+    {
+      values[i] = lower.values[iL];
+      iL++;
+    }
+      i++;
+  }
+  do
+  {
+    if (iL < lower.getSize())
+    {
+      values[i] = lower.values[iL];
+      iL++;
+    }
+    if (iU < upper.getSize())
+    {
+      values[i] = upper.values[iU];
+      iU++;
+    }
+    i++;
+  } while( i < size);
+}
+/** @brief Splits two list and sorts them.
+ * 
+ * Split the current list into two sublists of as equal as possible number of values.
+ * The sort() method will take no input parameters, and it is a void function.
+ * It wil split two sublist, sort them out by calling itself, and merge them.
+ * 
+ * 
+*/
+void List::sort()
+{
+  if (size <= 1)
+  {
+    return;
+  }
+  int split = size / 2;
+  List lower = List(*this, 0, split-1);
+  List upper = List(*this, split, size-1);
+  lower.sort(); 
+  upper.sort();
+  merge(lower, upper);
+}
+
+
+
 /** @brief Memory bounds exception constructor
  *
  * Constructor for exceptions used for our List class.
@@ -285,3 +410,101 @@ const char* ListMemoryBoundsException::what() const throw()
   // what expects old style array of characters, so convert to that
   return message.c_str();
 }
+
+/** @brief A binary search method
+ *
+ * A recursive binary search.The base case is, if end is less than or 
+ * equal to begin, then there is 1 or less items left in the list to search. 
+ * In that case you should test the item in the begin index and if the item 
+ * is what we were looking for, you return the begin index where it was found. 
+ * But if the item is not what was being looked for, then you return NOT_FOUND
+ * to indicate a failed search.
+ * 
+ * @param sear A constant reference to a string to be searched.
+ * 
+ * @param begin The begining of an index that is being searched.
+ * 
+ * @param end The ending of an index that is being searched.
+ * 
+ * @returns What is being searched within the string
+ */
+int List::search (const string sear,int begin, int end)
+{
+  if (size < 1)
+  {
+    return NOT_FOUND;
+  }
+
+  if(begin < end)
+  {
+    int total = (begin+end);
+    int middle = total/2;
+    if (values[middle]== sear)
+    {
+      return middle;
+    }
+    if (values[middle] > sear)
+    {
+      return search(sear, begin, middle-1);
+    }
+    else
+    {
+      return search(sear, middle+1, end);
+    }
+  }
+  if (operator[](begin)==sear)
+  {
+    return begin;
+  }
+  else
+  {
+    return NOT_FOUND;
+  }
+}
+/**
+ * @brief Checks to see if a list is sorted or not.
+ * 
+ * isSorted() member function which will return true if 
+ * the List is currently sorted, and false if it is not. 
+ * This function should calculate its result dynamically, 
+ * it should not rely on adding or setting a new member 
+ * variable that is set to try after sort() is called, but 
+ * instead checks pairs of items of the List to see if any 
+ * are out of order, and thus the list is not sorted.
+ * 
+ * @returns true if a list is sorted.
+ **/
+bool List::isSorted() const
+{
+  for (int i=0; i < size-1; i++)
+  {
+    if (values[i] > values[i+1])
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * @brief Checks to see if a list is sorted or not.
+ * 
+ * This method takes a string to search for in
+ *  the list, and it returns the index where the value
+ *  is found in the list. This method checks if the list is 
+ * sorted using the isSorted() method, and if not, it calls sort() 
+ *  to make sure the list becomes sorted before doing the
+ *  search.
+ * 
+ * @returns the index where the value is found in the list.
+ **/
+int List::search(const string sear)
+{
+  if (isSorted()== false)
+  {
+    sort();
+  }
+  return search(sear, 0 , size-1);
+}
+
+

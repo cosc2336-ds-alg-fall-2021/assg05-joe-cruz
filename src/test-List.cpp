@@ -162,7 +162,7 @@ TEST_CASE("<List> test of List user defined type for this assignment", "[task0]"
 
 /** Task 1: implement a sublist copy constructor for the List class.
  */
-/*
+/**/ 
 TEST_CASE("<List constructor> test of new sublist copy constructor", "[task1]")
 {
   string values1[] = {"neo", "morpheus", "trinity", "cypher", "oracle"};
@@ -238,11 +238,10 @@ TEST_CASE("<List constructor> test of new sublist copy constructor", "[task1]")
   CHECK_THROWS_AS(List(l1, 0, -1), ListMemoryBoundsException);
   CHECK_THROWS_AS(List(l1, 0, 5), ListMemoryBoundsException);
 }
-*/
 
 /** Task 2: implement merge member function
  */
-/*
+/**/
 TEST_CASE("<List> implement merge member function", "[task2]")
 {
   SECTION("test merge order lower, upper, lower, upper")
@@ -414,11 +413,11 @@ TEST_CASE("<List> implement merge member function", "[task2]")
                       "dujour, morpheus, mouse, neo, spoon boy, switch, , , ,  ]");
   }
 }
-*/
+
 
 /** Task 3: implement the recursive sort member function
  */
-/*
+/**/
 TEST_CASE("<List> implement sort member function", "[task3]")
 {
   SECTION("test base case sorts")
@@ -552,11 +551,10 @@ TEST_CASE("<List> implement sort member function", "[task3]")
                       "tank, trinity ]");
   }
 }
-*/
 
 /** Task 4: implement the recursive search member function
  */
-/*
+/**/
 TEST_CASE("<List> implement search member function", "[task4]")
 {
 
@@ -621,11 +619,10 @@ TEST_CASE("<List> implement search member function", "[task4]")
     CHECK(result == NOT_FOUND);
   }
 }
-*/
 
 /** Task 5: implement the isSorted() member function
  */
-/*
+/**/
 TEST_CASE("<List> implement isSorted member function", "[task5]")
 {
   SECTION("test list of size 0 and 1")
@@ -675,11 +672,10 @@ TEST_CASE("<List> implement isSorted member function", "[task5]")
     CHECK(l1.isSorted());
   }
 }
-*/
 
 /** Task 5: implement public/private search API
  */
-/*
+/**/
 TEST_CASE("<List> implement public/private search member function", "[task5-2]")
 {
   SECTION("test base case search, search empty list should fail")
@@ -737,4 +733,4 @@ TEST_CASE("<List> implement public/private search member function", "[task5-2]")
     CHECK(result == NOT_FOUND);
   }
 }
-*/
+
